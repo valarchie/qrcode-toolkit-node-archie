@@ -21,8 +21,10 @@ router.post("/qrcode", async (ctx) => {
   // @ts-expect-error
   await generateQRCode(outCanvas, params);
 
-  ctx.type = "image/png";
-  ctx.body = outCanvas.toBuffer();
+  const base64 = outCanvas.toDataURL('image/png');
+
+  ctx.type = "application/json";
+  ctx.body = { success: true, data: { input_image: base64 } };
 });
 
 app.listen(3000, () => {
